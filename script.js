@@ -1,17 +1,16 @@
 let apiKey = "44727a5eb5af470396b287fdac96776a";
 
+axios
+  .get(`https://newsapi.org/v2/top-headlines?country=id&apiKey=${apiKey}`)
+  .then(function (res) {
+    return res.data.articles;
+  })
+  .then((res) => {
+    for (i = 0; i <= res.length; i++) {
+      temp = "";
 
-axios.get(`https://newsapi.org/v2/top-headlines?country=id&apiKey=${apiKey}`)
-.then(function(res){return res.data.articles})
-.then(res => {
-
-   for(i=0; i<=res.length; i++){
-
-       temp = "";   
-
-       res.forEach((value)=>{
-
-           temp += `
+      res.forEach((value) => {
+        temp += `
                
                <div class="col-sm-4">
                    <div class="card mx-5 my-3 d-flex flex-column">
@@ -25,30 +24,26 @@ axios.get(`https://newsapi.org/v2/top-headlines?country=id&apiKey=${apiKey}`)
                    </div>
                </div>
            `;
-       })
+      });
 
-       document.getElementById("data").innerHTML = temp;
+      document.getElementById("data").innerHTML = temp;
+    }
+  });
 
-               }
-           }
-       );
+document.getElementById("search").addEventListener("keypress", getData);
 
+function getData() {
+  axios
+    .get(`https://newsapi.org/v2/top-headlines?country=id&q=${search.value}&apiKey=${apiKey}`)
+    .then(function (res) {
+      return res.data.articles;
+    })
+    .then((res) => {
+      for (i = 0; i <= res.length; i++) {
+        temp = "";
 
-document.getElementById("search").addEventListener("keypress",getData);
-
-
-function getData (){ 
-    axios.get(`https://newsapi.org/v2/top-headlines?country=id&q=${search.value}&apiKey=${apiKey}`)
- .then(function(res){return res.data.articles})
- .then(res => {
-
-    for(i=0; i<=res.length; i++){
-
-        temp = "";   
-
-        res.forEach((value)=>{
-
-            temp += `
+        res.forEach((value) => {
+          temp += `
                 
                 <div class="col-sm-4">
                     <div class="card mx-5 my-3 d-flex flex-column">
@@ -62,11 +57,9 @@ function getData (){
                     </div>
                 </div>
             `;
-        })
+        });
 
         document.getElementById("data").innerHTML = temp;
-
-                }
-            }
-        );
-    }        
+      }
+    });
+}
